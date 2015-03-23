@@ -1,6 +1,6 @@
 #Jingle Stanza
 
-Jingle Stanzas is a utility for using [jxt](https://github.com/otalk/jxt/) to translate Jingle objects (from [jingle.js](https://github.com/otalk/jingle.js/)) to and from xml stanzas similar to [stanza.io](https://github.com/otalk/stanza.io/), but for use with an xmpp library other than stanza.io.
+Jingle Stanzas is a utility for using [jxt](https://github.com/otalk/jxt/) to translate Jingle objects (from [jingle.js](https://github.com/otalk/jingle.js/)) to and from xml stanzas similar to [stanza.io](https://github.com/otalk/stanza.io/), but for use with an xmpp library other than stanza.io. It is largely based on stanza.io, using the jxt definitions for stanzas created therein. Credit where it's due: [stanza.io](https://github.com/otalk/stanza.io/).
 
 ##Usage
 
