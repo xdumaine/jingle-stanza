@@ -8,6 +8,7 @@ jingleStanza.use(require('./stanzas/iq'));
 jingleStanza.use(require('./stanzas/jingle'));
 jingleStanza.use(require('./stanzas/rtp'));
 jingleStanza.use(require('./stanzas/iceUdp'));
+jingleStanza.use(require('./stanzas/extdisco'));
 
 module.exports = {
     getXml: function (data) {
