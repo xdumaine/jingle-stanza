@@ -4,6 +4,7 @@ var jingleStanza = require('jxt').createRegistry();
 
 
 jingleStanza.use(require('jxt-xmpp-types'));
+jingleStanza.use(require('./stanzas/error'));
 jingleStanza.use(require('./stanzas/iq'));
 jingleStanza.use(require('./stanzas/jingle'));
 jingleStanza.use(require('./stanzas/rtp'));
