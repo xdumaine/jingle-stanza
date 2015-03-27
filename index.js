@@ -19,6 +19,11 @@ module.exports = {
         return new Iq(data);
     },
 
+    getMessageXml: function (data) {
+        var Message = jingleStanza.getMessage();
+        return new Message(data);
+    },
+
     getData: function (stanza) {
         if (typeof stanza === 'string') {
             return jingleStanza.parse(stanza);
