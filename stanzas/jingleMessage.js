@@ -24,16 +24,9 @@ module.exports = function (stanza) {
         }
     });
 
-    var Description = stanza.define({
-        name: 'description',
-        namespace: JINGLE_NS,
-        element: 'description',
-        fields: {
-            media: types.attribute('media')
-        }
+    stanza.withDefinition('description', JINGLE_NS, function(RTP) {
+        stanza.extend(Propose, RTP, 'descriptions');
     });
-
-    stanza.extend(Propose, Description, 'descriptions');
 
     var Retract = stanza.define({
         name: 'retract',
