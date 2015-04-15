@@ -32,5 +32,3 @@ module.exports = {
         return jingleStanza.build(stanza);
     }
 };
-
-GLOBAL.jxt = jingleStanza;
