@@ -1,6 +1,7 @@
 'use strict';
 
 var NS = 'urn:xmpp:jingle:apps:rtp:1';
+var DCNS = 'urn:xmpp:jingle:transports:webrtc-datachannel:0';
 var FBNS = 'urn:xmpp:jingle:apps:rtp:rtcp-fb:0';
 var HDRNS = 'urn:xmpp:jingle:apps:rtp:rtp-hdrext:0';
 var INFONS = 'urn:xmpp:jingle:apps:rtp:info:1';
@@ -147,6 +148,15 @@ module.exports = function (stanza) {
         }
     });
 
+    var DataChannel = stanza.define({
+        name: '_datachannel',
+        namespace: DCNS,
+        element: 'description',
+        tags: ['jingle-description'],
+        fields: {
+            descType: {value: 'datachannel'}
+        }
+    });
 
     var PayloadType = stanza.define({
         name: '_payloadType',
@@ -280,6 +290,7 @@ module.exports = function (stanza) {
 
     stanza.withDefinition('content', 'urn:xmpp:jingle:1', function (Content) {
         stanza.extend(Content, RTP);
+        stanza.extend(Content, DataChannel);
     });
 
     stanza.withDefinition('jingle', 'urn:xmpp:jingle:1', function (Jingle) {
