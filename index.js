@@ -26,9 +26,9 @@ module.exports = {
     },
 
     getData: function (stanza) {
-        if (typeof stanza === 'string') {
-            return jingleStanza.parse(stanza);
+        if (typeof stanza !== 'string') {
+            stanza = stanza.toString();
         }
-        return jingleStanza.build(stanza);
+        return jingleStanza.parse(stanza);
     }
 };
