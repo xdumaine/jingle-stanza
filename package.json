@@ -4,7 +4,7 @@
   "description": "A jingle.js utility for creating xml stanzas from objects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "semistandard && node test/smoke.js"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,13 @@
   },
   "homepage": "https://github.com/xdumaine/jingle-stanza",
   "dependencies": {
-      "jingle": "~1.6.2",
-      "jxt": "~3.0.2",
-      "jxt-xmpp-types": "~2.1.1"
+    "jingle": "~1.6.2",
+    "jxt": "~3.0.2",
+    "jxt-xmpp": "^1.2.3",
+    "jxt-xmpp-types": "^2.1.1"
+  },
+  "devDependencies": {
+    "semistandard": "^7.0.4",
+    "tape": "^4.2.2"
   }
 }
