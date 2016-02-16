@@ -77,8 +77,7 @@ module.exports = function (stanza) {
     });
 
     var GatheringComplete = stanza.define({
-        name: 'gatheringComplete',
-        namespace: NS,
+        name: 'gatheringComplete'
         element: 'gathering-complete'
     });
 
@@ -86,7 +85,7 @@ module.exports = function (stanza) {
     stanza.extend(ICE, RemoteCandidate);
     stanza.extend(ICE, Fingerprint, 'fingerprints');
     stanza.extend(ICE, SctpMap, 'sctp');
-    stanza.extend(ICE, GatheringComplete, 'gathering-complete');
+    stanza.extend(ICE, GatheringComplete);
 
     stanza.withDefinition('content', 'urn:xmpp:jingle:1', function (Content) {
         stanza.extend(Content, ICE);
