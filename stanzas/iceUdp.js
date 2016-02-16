@@ -76,11 +76,17 @@ module.exports = function (stanza) {
         }
     });
 
+    var GatheringComplete = stanza.define({
+        name: 'gatheringComplete',
+        namespace: NS,
+        element: 'gathering-complete'
+    });
 
     stanza.extend(ICE, Candidate, 'candidates');
     stanza.extend(ICE, RemoteCandidate);
     stanza.extend(ICE, Fingerprint, 'fingerprints');
     stanza.extend(ICE, SctpMap, 'sctp');
+    stanza.extend(ICE, GatheringComplete, 'gathering-complete');
 
     stanza.withDefinition('content', 'urn:xmpp:jingle:1', function (Content) {
         stanza.extend(Content, ICE);

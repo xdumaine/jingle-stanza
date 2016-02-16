@@ -1,6 +1,6 @@
 {
   "name": "jingle-stanza",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A jingle.js utility for creating xml stanzas from objects",
   "main": "index.js",
   "scripts": {
