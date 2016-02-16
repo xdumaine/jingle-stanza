@@ -77,7 +77,7 @@ module.exports = function (stanza) {
     });
 
     var GatheringComplete = stanza.define({
-        name: 'gatheringComplete'
+        name: 'gatheringComplete',
         element: 'gathering-complete'
     });
 
