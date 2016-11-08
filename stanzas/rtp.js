@@ -153,7 +153,7 @@ module.exports = function (stanza) {
     element: 'description',
     tags: ['jingle-application'],
     fields: {
-      descType: {value: 'datachannel'}
+      applicationType: {value: 'datachannel'}
     }
   });
 
