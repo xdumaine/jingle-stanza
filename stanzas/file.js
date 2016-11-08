@@ -43,7 +43,7 @@ module.exports = function (stanza) {
     name: '_filetransfer',
     namespace: NS,
     element: 'description',
-    tags: ['jingle-description'],
+    tags: ['jingle-application'],
     fields: {
       descType: {value: 'filetransfer'},
       offer: types.subExtension('offer', NS, 'offer', File),

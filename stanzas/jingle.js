@@ -47,22 +47,6 @@ module.exports = function (stanza) {
       disposition: types.attribute('disposition', 'session'),
       name: types.attribute('name'),
       senders: types.attribute('senders', 'both'),
-      description: {
-        get: function () {
-          var opts = stanza.tagged('jingle-description').map(function (Description) {
-            return Description.prototype._name;
-          });
-          for (var i = 0, len = opts.length; i < len; i++) {
-            if (this._extensions[opts[i]]) {
-              return this._extensions[opts[i]];
-            }
-          }
-        },
-        set: function (value) {
-          var ext = '_' + value.descType;
-          this[ext] = value;
-        }
-      },
       application: {
         get: function () {
           var opts = stanza.tagged('jingle-application').map(function (Description) {
@@ -91,7 +75,7 @@ module.exports = function (stanza) {
           }
         },
         set: function (value) {
-          var ext = '_' + (value.transType || value.transportType);
+          var ext = '_' + value.transportType;
           this[ext] = value;
         }
       }

@@ -71,86 +71,6 @@ module.exports = function (stanza) {
     name: '_rtp',
     namespace: NS,
     element: 'description',
-    tags: ['jingle-description'],
-    fields: {
-      descType: {value: 'rtp'},
-      media: types.attribute('media'),
-      ssrc: types.attribute('ssrc'),
-      mux: types.boolSub(NS, 'rtcp-mux'),
-      encryption: {
-        get: function () {
-          var enc = types.find(this.xml, NS, 'encryption');
-          if (!enc.length) {
-            return [];
-          }
-          enc = enc[0];
-
-          var self = this;
-          var data = types.find(enc, NS, 'crypto');
-          var results = [];
-
-          data.forEach(function (xml) {
-            results.push(new Crypto({}, xml, self).toJSON());
-          });
-          return results;
-        },
-        set: function (values) {
-          var enc = types.find(this.xml, NS, 'encryption');
-          if (enc.length) {
-            this.xml.removeChild(enc);
-          }
-
-          if (!values.length) {
-            return;
-          }
-
-          types.setBoolSubAttribute(this.xml, NS, 'encryption', 'required', true);
-          enc = types.find(this.xml, NS, 'encryption')[0];
-
-          var self = this;
-          values.forEach(function (value) {
-            var content = new Crypto(value, null, self);
-            enc.appendChild(content.xml);
-          });
-        }
-      },
-      feedback: Feedback,
-      headerExtensions: {
-        get: function () {
-          var existing = types.find(this.xml, HDRNS, 'rtp-hdrext');
-          var result = [];
-          existing.forEach(function (xml) {
-            result.push({
-              id: types.getAttribute(xml, 'id'),
-              uri: types.getAttribute(xml, 'uri'),
-              senders: types.getAttribute(xml, 'senders')
-            });
-          });
-          return result;
-        },
-        set: function (values) {
-          var self = this;
-          var existing = types.find(this.xml, HDRNS, 'rtp-hdrext');
-          existing.forEach(function (item) {
-            self.xml.removeChild(item);
-          });
-
-          values.forEach(function (value) {
-            var hdr = types.createElement(HDRNS, 'rtp-hdrext', NS);
-            types.setAttribute(hdr, 'id', value.id);
-            types.setAttribute(hdr, 'uri', value.uri);
-            types.setAttribute(hdr, 'senders', value.senders);
-            self.xml.appendChild(hdr);
-          });
-        }
-      }
-    }
-  });
-
-  var RTP2 = stanza.define({
-    name: '_rtp2',
-    namespace: NS,
-    element: 'application',
     tags: ['jingle-application'],
     fields: {
       applicationType: {value: 'rtp'},
@@ -231,19 +151,9 @@ module.exports = function (stanza) {
     name: '_datachannel',
     namespace: DCNS,
     element: 'description',
-    tags: ['jingle-description'],
+    tags: ['jingle-application'],
     fields: {
       descType: {value: 'datachannel'}
-    }
-  });
-
-  var DataChannel2 = stanza.define({
-    name: '_datachannel2',
-    namespace: DCNS,
-    element: 'application',
-    tags: ['jingle-description'],
-    fields: {
-      applicationType: {value: 'datachannel'}
     }
   });
 
@@ -372,16 +282,9 @@ module.exports = function (stanza) {
   stanza.extend(RTP, Source, 'sources');
   stanza.extend(RTP, SourceGroup, 'sourceGroups');
 
-  stanza.extend(RTP2, Bandwidth);
-  stanza.extend(RTP2, PayloadType, 'payloads');
-  stanza.extend(RTP2, Source, 'sources');
-  stanza.extend(RTP2, SourceGroup, 'sourceGroups');
-
   stanza.withDefinition('content', 'urn:xmpp:jingle:1', function (Content) {
     stanza.extend(Content, RTP);
     stanza.extend(Content, DataChannel);
-    stanza.extend(Content, RTP2);
-    stanza.extend(Content, DataChannel2);
   });
 
   stanza.withDefinition('jingle', 'urn:xmpp:jingle:1', function (Jingle) {
