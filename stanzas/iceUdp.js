@@ -2,92 +2,108 @@
 
 var NS = 'urn:xmpp:jingle:transports:ice-udp:1';
 
-
 module.exports = function (stanza) {
-    var types = stanza.utils;
+  var types = stanza.utils;
 
-    var ICE = stanza.define({
-        name: '_iceUdp',
-        namespace: NS,
-        element: 'transport',
-        tags: ['jingle-transport'],
-        fields: {
-            transType: {value: 'iceUdp'},
-            pwd: types.attribute('pwd'),
-            ufrag: types.attribute('ufrag')
-        }
-    });
+  var ICE = stanza.define({
+    name: '_iceUdp',
+    namespace: NS,
+    element: 'transport',
+    tags: ['jingle-transport'],
+    fields: {
+      transType: {value: 'iceUdp'},
+      transportType: {value: 'iceUdp'},
+      pwd: types.attribute('pwd'),
+      ufrag: types.attribute('ufrag')
+    }
+  });
 
+  var ICE2 = stanza.define({
+    name: '_iceUdp2',
+    namespace: NS,
+    element: 'transport',
+    tags: ['jingle-transport'],
+    fields: {
+      transportType: {value: 'iceUdp'},
+      pwd: types.attribute('pwd'),
+      ufrag: types.attribute('ufrag')
+    }
+  });
 
-    var RemoteCandidate = stanza.define({
-        name: 'remoteCandidate',
-        namespace: NS,
-        element: 'remote-candidate',
-        fields: {
-            component: types.attribute('component'),
-            ip: types.attribute('ip'),
-            port: types.attribute('port')
-        }
-    });
+  var RemoteCandidate = stanza.define({
+    name: 'remoteCandidate',
+    namespace: NS,
+    element: 'remote-candidate',
+    fields: {
+      component: types.attribute('component'),
+      ip: types.attribute('ip'),
+      port: types.attribute('port')
+    }
+  });
 
+  var Candidate = stanza.define({
+    name: '_iceUdpCandidate',
+    namespace: NS,
+    element: 'candidate',
+    fields: {
+      component: types.attribute('component'),
+      foundation: types.attribute('foundation'),
+      generation: types.attribute('generation'),
+      id: types.attribute('id'),
+      ip: types.attribute('ip'),
+      network: types.attribute('network'),
+      port: types.attribute('port'),
+      priority: types.attribute('priority'),
+      protocol: types.attribute('protocol'),
+      relAddr: types.attribute('rel-addr'),
+      relPort: types.attribute('rel-port'),
+      tcpType: types.attribute('tcptype'),
+      type: types.attribute('type')
+    }
+  });
 
-    var Candidate = stanza.define({
-        name: '_iceUdpCandidate',
-        namespace: NS,
-        element: 'candidate',
-        fields: {
-            component: types.attribute('component'),
-            foundation: types.attribute('foundation'),
-            generation: types.attribute('generation'),
-            id: types.attribute('id'),
-            ip: types.attribute('ip'),
-            network: types.attribute('network'),
-            port: types.attribute('port'),
-            priority: types.attribute('priority'),
-            protocol: types.attribute('protocol'),
-            relAddr: types.attribute('rel-addr'),
-            relPort: types.attribute('rel-port'),
-            tcpType: types.attribute('tcptype'),
-            type: types.attribute('type')
-        }
-    });
+  var Fingerprint = stanza.define({
+    name: '_iceFingerprint',
+    namespace: 'urn:xmpp:jingle:apps:dtls:0',
+    element: 'fingerprint',
+    fields: {
+      hash: types.attribute('hash'),
+      setup: types.attribute('setup'),
+      value: types.text(),
+      required: types.boolAttribute('required')
+    }
+  });
 
+  var SctpMap = stanza.define({
+    name: '_sctpMap',
+    namespace: 'urn:xmpp:jingle:transports:dtls-sctp:1',
+    element: 'sctpmap',
+    fields: {
+      number: types.attribute('number'),
+      protocol: types.attribute('protocol'),
+      streams: types.attribute('streams')
+    }
+  });
 
-    var Fingerprint = stanza.define({
-        name: '_iceFingerprint',
-        namespace: 'urn:xmpp:jingle:apps:dtls:0',
-        element: 'fingerprint',
-        fields: {
-            hash: types.attribute('hash'),
-            setup: types.attribute('setup'),
-            value: types.text(),
-            required: types.boolAttribute('required')
-        }
-    });
+  var GatheringComplete = stanza.define({
+    name: 'gatheringComplete',
+    element: 'gathering-complete'
+  });
 
-    var SctpMap = stanza.define({
-        name: '_sctpMap',
-        namespace: 'urn:xmpp:jingle:transports:dtls-sctp:1',
-        element: 'sctpmap',
-        fields: {
-            number: types.attribute('number'),
-            protocol: types.attribute('protocol'),
-            streams: types.attribute('streams')
-        }
-    });
+  stanza.extend(ICE, Candidate, 'candidates');
+  stanza.extend(ICE, RemoteCandidate);
+  stanza.extend(ICE, Fingerprint, 'fingerprints');
+  stanza.extend(ICE, SctpMap, 'sctp');
+  stanza.extend(ICE, GatheringComplete);
 
-    var GatheringComplete = stanza.define({
-        name: 'gatheringComplete',
-        element: 'gathering-complete'
-    });
+  stanza.extend(ICE2, Candidate, 'candidates');
+  stanza.extend(ICE2, RemoteCandidate);
+  stanza.extend(ICE2, Fingerprint, 'fingerprints');
+  stanza.extend(ICE2, SctpMap, 'sctp');
+  stanza.extend(ICE2, GatheringComplete);
 
-    stanza.extend(ICE, Candidate, 'candidates');
-    stanza.extend(ICE, RemoteCandidate);
-    stanza.extend(ICE, Fingerprint, 'fingerprints');
-    stanza.extend(ICE, SctpMap, 'sctp');
-    stanza.extend(ICE, GatheringComplete);
-
-    stanza.withDefinition('content', 'urn:xmpp:jingle:1', function (Content) {
-        stanza.extend(Content, ICE);
-    });
+  stanza.withDefinition('content', 'urn:xmpp:jingle:1', function (Content) {
+    stanza.extend(Content, ICE);
+    stanza.extend(Content, ICE2);
+  });
 };

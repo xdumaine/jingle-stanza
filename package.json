@@ -1,10 +1,15 @@
 {
   "name": "jingle-stanza",
-  "version": "0.1.12",
+  "version": "1.0.0",
   "description": "A jingle.js utility for creating xml stanzas from objects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "node_modules/.bin/semistandard",
+    "build": "node_modules/rollup/bin/rollup --config rollup.config.js",
+    "prepublish": "npm run build && npm run _test",
+    "_test": "node_modules/.bin/mocha --compilers js:babel-core/register test/test.js",
+    "test-server": "./watch-tests.sh",
+    "test": "npm run lint && npm run _test"
   },
   "repository": {
     "type": "git",
@@ -22,8 +27,19 @@
   },
   "homepage": "https://github.com/xdumaine/jingle-stanza",
   "dependencies": {
-      "jingle": "~1.6.2",
-      "jxt": "~3.0.2",
-      "jxt-xmpp-types": "~2.1.1"
+    "jingle": "~1.6.2",
+    "jxt": "~3.0.2",
+    "jxt-xmpp-types": "~2.1.1"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2",
+    "pre-push": "^0.1.1",
+    "rollup": "^0.36.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "semistandard": "^9.1.0",
+    "sinon": "^1.17.6"
   }
 }
