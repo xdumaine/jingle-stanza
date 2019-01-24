@@ -77,6 +77,7 @@ module.exports = function (stanza) {
       media: types.attribute('media'),
       ssrc: types.attribute('ssrc'),
       mux: types.boolSub(NS, 'rtcp-mux'),
+      rsize: types.boolSub(NS, 'rtcp-rsize'),
       encryption: {
         get: function () {
           var enc = types.find(this.xml, NS, 'encryption');

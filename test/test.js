@@ -54,4 +54,23 @@ describe('jingleStanza', function () {
     assert.ok(audioDescription, 'audio application node is generated');
     assert.equal(audioDescription.attrs.xmlns, 'urn:xmpp:jingle:apps:rtp:1');
   });
+
+  it('will generate new old style session-accepts from new-style objects with rsize', function () {
+    const stanza = jingleStanza.getXml(JSON.parse(stanzaObjects.sessionAcceptRsize)).xml;
+    assert.ok(stanza);
+
+    const jingleNode = stanza.getChild('jingle');
+    assert.ok(jingleNode);
+
+    const contents = jingleNode.getChildren('content');
+    assert.equal(contents.length, 1);
+
+    const audioContent = contents[0];
+    const audioDescription = audioContent.getChild('description');
+    assert.ok(audioDescription, 'audio application node is generated');
+    assert.equal(audioDescription.attrs.xmlns, 'urn:xmpp:jingle:apps:rtp:1');
+
+    const rsize = audioDescription.getChild('rtcp-rsize');
+    assert.ok(rsize, 'rsize child exists');
+  });
 });
